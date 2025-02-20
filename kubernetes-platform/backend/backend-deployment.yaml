@@ -21,4 +21,4 @@ spec:
             - containerPort: 5000
           env:
             - name: DATABASE_URL
-              value: "postgresql://postgres:password@postgres:5432/halukyilmaz55"
+              value: "postgresql://halukuser:'Ale3duysunkr@lSa3sun'@postgres:5432/halukyilmaz55"

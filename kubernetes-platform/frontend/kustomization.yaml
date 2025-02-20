@@ -1,4 +1,5 @@
-namespace: backend
+namespace: frontend
 resources:
-- backend-deployment.yaml
-- backend-service.yaml
+- ns.yaml
+- frontend-deployment.yaml
+- frontend-service.yaml
