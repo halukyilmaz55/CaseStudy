@@ -73,6 +73,9 @@ mkdir backend && mkdir frontend && touch README.txt
 
 # Node.js projesini başlat
 npm init -y
+npm install
+npm start
+node server.js
 
 # Gerekli bağımlılıkları yükle
 npm install express pg cors dotenv
