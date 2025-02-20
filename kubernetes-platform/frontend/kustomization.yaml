@@ -1,5 +1,7 @@
 namespace: frontend
 resources:
 - ns.yaml
+- configmap.yaml
 - frontend-deployment.yaml
 - frontend-service.yaml
+- ingress.yaml
