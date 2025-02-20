@@ -192,6 +192,8 @@ GRANT dba TO halukuser;
 - aws ve eksctl e ait komut setlerini kullanıyoruz localden 
 - öncesinde acces_key ve secret_key komut çalıştırmak için must'tır.
 
+- AWS de bir service account oluşturup yetkilendirip tf lerde credential olarak gösterip, o şekilde de  ilerleyebilirdik, ben bu yöntemle ilerledim.
+
     aws iam create-access-key --user-name haluk@example.com     # access_key oluştur
     aws iam list-access-keys --user-name haluk@example.com      # access_key listele
 
