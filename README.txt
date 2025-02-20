@@ -187,6 +187,8 @@ GRANT dba TO halukuser;
 ---------------AWS CREDENTIAL CONFIG IAM ISLEMLERİ & TERRAFORM APPLY-----------------
 
 !!! Terraform tf lerini basmadan evvel aşağıdaki düzenlemelerin yapılmış olması gerekir. !!!
+
+- Çalıştırmadığım için tfstate'i koymadım çünkü içinde hassas veri var.
 - aws ve eksctl e ait komut setlerini kullanıyoruz localden 
 - öncesinde acces_key ve secret_key komut çalıştırmak için must'tır.
 
@@ -238,15 +240,15 @@ metadata:
   name: haluk_test
   region: eu-west-1
 managedNodeGroups:
-  - name: haluk-nodegroup-low-resource
+  - name: node-group-1
     ssh:
       allow: true
-      publicKeyPath: amazon-public-key.pub                                                                               # ssh için public key file ı set et. (daha eevel arayüzden oşluşturuldu)
+      publicKeyPath: amazon-public-key.pub                                                                               # ssh için public key file ı set et. (tf de de mevcut:  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data) )
     instanceType: t3.xlarge
     desiredCapacity: 3
-    minSize: 3
-    maxSize: 3                                                                                                           # worker node umuz 3 adet 
-    maxPodsPerNode: 250                                                                                                  # pod sayısını 250 yapabildik
+    minSize: 1
+    maxSize: 2                                                                                                           # worker node umuz 2 adet 
+    maxPodsPerNode: 250                                                                                                  # pod sayısını tek node için 250 yapabildik
     privateNetworking: true
     subnets:
       - subnet-???                                                                                                       # Availibty zone'u Private'tan seçtik subnet atadı bize bu deger speceifik o sebeple yazılmadı
