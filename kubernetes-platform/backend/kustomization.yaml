@@ -1,0 +1,4 @@
+namespace: backend
+resources:
+- backend-deployment.yaml
+- backend-service.yaml

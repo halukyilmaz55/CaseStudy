@@ -1,0 +1,5 @@
+namespace: database
+resources:
+- configmap.yaml
+- postgres-service.yaml
+- postgres-service.yaml

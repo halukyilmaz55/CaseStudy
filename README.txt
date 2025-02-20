@@ -1,7 +1,35 @@
 
-NOT: Uygulamalar MAC de oluşturuldu. 
-Debian tabanlı sistemlerde code derlenirken AMD olarak MAC de ARM olarak derlendiğinden bu runtimeda sorun oluşturuyor.Ben MAC de hazırladım.
-Değerlendirme yaparken buna dikkat edebilirsiniz.
+NOTLAR: 
+
+- Uygulamalar MAC de oluşturuldu. 
+    Debian tabanlı sistemlerde code derlenirken AMD olarak MAC de ARM olarak derlendiğinden bu runtimeda sorun oluşturuyor.Ben MAC de hazırladım.
+    Değerlendirme yaparken buna dikkat edebilirsiniz.
+
+- storageClass olarak biz normalde nfs-clinet veya longhorn tercih ediyoruz. EBS kullanmıyoruz. Fakat burda emptyDir: {} kullanıldı defaultta EBS kullanacaktır.
+
+- AWS'nin arayüzünü kullanım için tercih etmedim. Rancher'a generic cluster ekleyerek EKS cluster ını Rancher üzerinden yönetiyorum. (.kubeconfig dosyasında EKS cluster ın contex bilgileri ve token'ı yer alıyor.)
+
+- Uygulamalarımı deploy ederken helm değil kubernetes kustomization yapısını kullanıyorum.
+
+------------FOLDER HİYERARŞİSİ----------
+
+│── kubernetes/                     # Kubernetes YAML dosyaları
+│   ├── frontend-deployment.yaml
+│   ├── frontend-service.yaml
+│   ├── backend-deployment.yaml
+│   ├── backend-service.yaml
+│   ├── postgres-deployment.yaml
+│   ├── postgres-service.yaml
+│   ├── configmap.yaml
+│── backend/                  # Backend (Node.js)
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── server.js
+│── frontend/                 # Frontend (React)
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── src/
+│── README.md
 
 
 --------- CODE -------
@@ -21,7 +49,7 @@ npm init -y
 # Gerekli bağımlılıkları yükle
 npm install express pg cors dotenv
 
-# Backend'i başlat
+# Backend'i başlat (EXTRA NOT)
 node server.js
 
 --------
@@ -33,7 +61,7 @@ node server.js
 # React projesini oluştur
 npx create-react-app .
 
-# Frontend i başlat
+# Frontend i başlat (EXTRA NOT)
 npm start
 
 ----------
@@ -47,7 +75,7 @@ node_modules/
 .DS_Store
 *.log
 
----CODE lar eklendi
+---Bu esnada CODE lar eklendi----
 
 
 git rm -r --cached node_modules
@@ -97,7 +125,7 @@ docker push halyil/frontend-app:v1.0
 
 --- 
 
-# localimde run etmek istersem
+# localimde run etmek istersem (EXTRA NOT)
 
 # Backend uygulamasını çalıştır
 docker run -d -p 5000:5000 halyil/backend-app:latest
@@ -105,3 +133,19 @@ docker run -d -p 5000:5000 halyil/backend-app:latest
 # Frontend uygulamasını çalıştır
 docker run -d -p 3000:3000 halyil/frontend-app:latest
 
+
+
+-------------POSTGRESQL DB ISLEMLERI----------------
+
+- pgadmin kurulup arayüz üzerinden ilgili düzenlemler yapılabilir
+- alternatif olarak kurulum sonrası postgresql pod'u üzerinden de bağlantı sağlanabilir --> psql -U postgres -h localhost
+
+CREATE DATABASE halukyilmaz55;
+CREATE ROLE halukuser WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';
+GRANT ALL PRIVILEGES ON DATABASE halukyilmaz55 TO halukuser;
+CREATE ROLE dba WITH LOGIN CREATEDB CREATEROLE SUPERUSER PASSWORD 'Ale3duysunkr@lSa3sun';
+CREATE ROLE dba WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';
+GRANT ALL PRIVILEGES ON DATABASE halukyilmaz55 TO halukuser;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO halukuser;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO halukuser;
+GRANT dba TO halukuser;
