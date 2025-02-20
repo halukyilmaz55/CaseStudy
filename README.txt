@@ -1,6 +1,8 @@
 
 NOTLAR: 
 
+- Yapı AWS EKS cluster üzerinde host olacak mimari de tasarlandı. Katmanlar namespace seviyesinde ayrıştırıldı. Cluster içi erişimler any-any acık durumda istenirse Network policy lerle ingress egress uygulanır.
+
 - Uygulamalar MAC de oluşturuldu. 
     Debian tabanlı sistemlerde code derlenirken AMD olarak MAC de ARM olarak derlendiğinden bu runtimeda sorun oluşturuyor.Ben MAC de hazırladım.
     Değerlendirme yaparken buna dikkat edebilirsiniz.
@@ -85,7 +87,11 @@ git commit -m "Added .gitignore and removed node_modules"
 git push origin main
 
 
---------CI-CD----------
+--------CI-CD (AzureDevops)----------
+
+Uygulamalar main branch'ında yazılacağı düşünüldü. Yoksa ayrı branching mekanizamaları işletilebilir.
+
+!! pipeline içeriği "/ci-cd-azuredevops/azure-pipelines.yml" içindedir.
 
 # Docker Image'larını Build Et ve Tag'le
 
@@ -139,6 +145,7 @@ docker run -d -p 3000:3000 halyil/frontend-app:latest
 
 - pgadmin kurulup arayüz üzerinden ilgili düzenlemler yapılabilir
 - alternatif olarak kurulum sonrası postgresql pod'u üzerinden de bağlantı sağlanabilir --> psql -U postgres -h localhost
+- default user passowrd genelde postgres postgres olur.
 
 CREATE DATABASE halukyilmaz55;
 CREATE ROLE halukuser WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';

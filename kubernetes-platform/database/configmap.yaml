@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: postgres-config
 data:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: password
+  POSTGRES_USER: halukuser
+  POSTGRES_PASSWORD: "Ale3duysunkr@lSa3sun"
   POSTGRES_DB: halukyilmaz55
