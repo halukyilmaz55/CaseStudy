@@ -212,7 +212,7 @@ INSERT INTO users (name, email) VALUES
 
 
 
----------------AWS CREDENTIAL CONFIG IAM ISLEMLERİ & TERRAFORM APPLY-----------------
+---------------AWS CREDENTIAL CONFIG IAM ISLEMLERİ & TERRAFORM APPLY------------------
 
 !!! Terraform tf lerini basmadan evvel aşağıdaki düzenlemelerin yapılmış olması gerekir. !!!
 
