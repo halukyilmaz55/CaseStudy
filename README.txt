@@ -213,7 +213,7 @@ komutlarını çalıştırarak cluster'ı kurarsın.
 
 # --- ! POD sayısı yetersizliğinden kaynaklı komut seti ile kurulum ! ------
 
-eksctl create cluster --name haluk_test --without-nodegroup                                                             # Bununla master node lar oluşacak sonrasında arayüzden 27 ise 28 e upgrde başlat
+eksctl create cluster --name haluk-test --without-nodegroup                                                             # Bununla master node lar oluşacak sonrasında arayüzden 27 ise 28 e upgrde başlat
 
 kubectl delete daemonset -n kube-system aws-node                                                                        # varolan CNI'yı da  kaldıracak
 
@@ -237,7 +237,7 @@ eksctl create nodegroup -f - <<EOF                                              
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
-  name: haluk_test
+  name: haluk-test
   region: eu-west-1
 managedNodeGroups:
   - name: node-group-1
