@@ -3,6 +3,7 @@ NOTLAR:
 
 - Yapı AWS EKS cluster üzerinde host olacak mimari de tasarlandı. Katmanlar namespace seviyesinde ayrıştırıldı. 
     Cluster içi erişimler any-any acık durumda istenirse Network policy lerle ingress egress uygulanır.
+    frontend de react var o configmap lerden enpoint okuyor backend nodejs'ine gidiyor o da son katmanda olan postgresql db sine gidip veri okuyup geri dönüyor.
 
 - Uygulamalar MAC de oluşturuldu. 
     Debian tabanlı sistemlerde code derlenirken AMD olarak;  MAC de ARM olarak derlendiğinden bu runtimeda sorun oluşturuyor.
@@ -24,23 +25,39 @@ NOTLAR:
 
 ------------FOLDER HİYERARŞİSİ----------
 
-│── kubernetes/                     # Kubernetes YAML dosyaları
-│   ├── frontend-deployment.yaml
-│   ├── frontend-service.yaml
-│   ├── backend-deployment.yaml
-│   ├── backend-service.yaml
-│   ├── postgres-deployment.yaml
-│   ├── postgres-service.yaml
-│   ├── configmap.yaml
-│── backend/                  # Backend (Node.js)
+│── kubernetes-platform/             # Kubernetes YAML dosyaları
+│   │── backend/                      # Backend ile ilgili YAML dosyaları
+│   │   ├── backend-deployment.yaml
+│   │   ├── backend-service.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── ns.yaml
+│   │
+│   │── database/                     # Veritabanı (PostgreSQL) ile ilgili YAML dosyaları
+│   │   ├── configmap.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── ns.yaml
+│   │   ├── postgres-deployment.yaml
+│   │   ├── postgres-service.yaml
+│   │
+│   │── frontend/                     # Frontend ile ilgili YAML dosyaları
+│   │   ├── configmap.yaml
+│   │   ├── frontend-deployment.yaml
+│   │   ├── frontend-service.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── ns.yaml
+│
+│── backend/                          # Backend (Node.js)
 │   ├── Dockerfile
 │   ├── package.json
 │   ├── server.js
-│── frontend/                 # Frontend (React)
+│
+│── frontend/                         # Frontend (React)
 │   ├── Dockerfile
 │   ├── package.json
 │   ├── src/
-│── README.md
+│
+│── README.md                     
+
 
 
 --------- CODE -------
