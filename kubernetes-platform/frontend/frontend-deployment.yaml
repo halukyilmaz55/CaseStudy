@@ -19,3 +19,9 @@ spec:
           image: halyil/frontend-app:v1.0
           ports:
             - containerPort: 3000
+          env:
+            - name: REACT_APP_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: REACT_APP_API_URL

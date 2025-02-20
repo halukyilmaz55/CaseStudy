@@ -4,7 +4,7 @@ function App() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("/api/users")
+    fetch(`${process.env.REACT_APP_API_URL}/api/users`)
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.error(err));
@@ -23,3 +23,4 @@ function App() {
 }
 
 export default App;
+
