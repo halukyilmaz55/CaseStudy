@@ -14,7 +14,7 @@
 
 - **StorageClass tercihi:**
 
-  - Normalde **NFS-Client** veya **Longhorn** kullanıyoruz, ancak burada **EBS yerine emptyDir: {}** kullanıldı.
+  - Normalde **NFS-Client** veya **Longhorn** kullanıyoruz, ancak burada defaultta **EBS oldugundan emptyDir: {}** ile EBS kullanılmış oldu.
 
 - **AWS arayüzü kullanılmadı.**
 

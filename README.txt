@@ -10,7 +10,7 @@ NOTLAR:
     Ben MAC de hazırladım bu sebeple host olacakları instance ları da ARM çalıştıracak şekilde seçtim AWS EKS de.
 
 - storageClass olarak biz normalde nfs-clinet veya longhorn tercih ediyoruz. 
-    EBS kullanmıyoruz. Fakat burda emptyDir: {} kullanıldı defaultta EBS kullanacaktır.
+    EBS kullanmıyoruz. Fakat burada defaultta **EBS oldugundan emptyDir: {}** ile EBS kullanılmış oldu.
 
 - AWS'nin arayüzünü kullanım için tercih etmedim. 
     Rancher'a generic cluster ekleyerek EKS cluster ını Rancher üzerinden yönetiyorum. (.kubeconfig dosyasında EKS cluster ın contex bilgileri ve token'ı yer alıyor.)
