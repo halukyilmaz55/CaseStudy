@@ -119,6 +119,10 @@ git push origin main
 
 ## **CI/CD (Azure DevOps)**
 
+Uygulamalar main branch'ında yazılacağı düşünüldü. Yoksa ayrı branching mekanizmaları işletilebilir.
+
+‼ Pipeline içeriği ci-cd-azuredevops/azure-pipelines.yml dosyası içindedir. ‼
+
 ```bash
 # Docker Image'larını Build Et ve Tag'le
 
@@ -138,6 +142,14 @@ docker push halyil/frontend-app:v1.0
 ---
 
 ## **PostgreSQL DB İşlemleri**
+
+pgAdmin kurulup arayüz üzerinden ilgili düzenlemeler yapılabilir.
+
+Alternatif olarak PostgreSQL pod'u üzerinden de bağlantı sağlanabilir:
+
+psql -U postgres -h localhost
+
+Default user password genellikle postgres/postgres olur.
 
 ```sql
 CREATE DATABASE halukyilmaz55;
@@ -169,6 +181,14 @@ INSERT INTO users (name, email) VALUES
 ---
 
 ## **AWS Credential & Terraform Apply**
+
+‼ Terraform tf dosyalarını uygulamadan önce aşağıdaki düzenlemelerin yapılmış olması gerekir! ‼
+
+Çalıştırmadığım için tfstate dosyasını koymadım, hassas veri içerdiği için.
+
+AWS ve eksctl komut setleri localden çalıştırılıyor.
+
+Terraform uygulamadan önce access_key ve secret_key oluşturmak şarttır.
 
 ```bash
 # AWS IAM Kullanıcı ve Anahtar İşlemleri
