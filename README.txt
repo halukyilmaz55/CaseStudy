@@ -253,3 +253,5 @@ managedNodeGroups:
     subnets:
       - subnet-???                                                                                                       # Availibty zone'u Private'tan seçtik subnet atadı bize bu deger speceifik o sebeple yazılmadı
 EOF
+
+thanks
