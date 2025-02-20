@@ -10,7 +10,7 @@ module "eks" {
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
-    ami_type = "AL2_x86_64"
+    ami_type = "AL2_x86_64" #  x86_64 mimarili bir AMI  kullanıldı ARM64 olması için cunku kodlar da mac de ARM oalrak derlenmişti
 
   }
 

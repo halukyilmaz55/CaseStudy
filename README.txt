@@ -1,17 +1,26 @@
 
 NOTLAR: 
 
-- Yapı AWS EKS cluster üzerinde host olacak mimari de tasarlandı. Katmanlar namespace seviyesinde ayrıştırıldı. Cluster içi erişimler any-any acık durumda istenirse Network policy lerle ingress egress uygulanır.
+- Yapı AWS EKS cluster üzerinde host olacak mimari de tasarlandı. Katmanlar namespace seviyesinde ayrıştırıldı. 
+    Cluster içi erişimler any-any acık durumda istenirse Network policy lerle ingress egress uygulanır.
 
 - Uygulamalar MAC de oluşturuldu. 
-    Debian tabanlı sistemlerde code derlenirken AMD olarak MAC de ARM olarak derlendiğinden bu runtimeda sorun oluşturuyor.Ben MAC de hazırladım.
-    Değerlendirme yaparken buna dikkat edebilirsiniz.
+    Debian tabanlı sistemlerde code derlenirken AMD olarak;  MAC de ARM olarak derlendiğinden bu runtimeda sorun oluşturuyor.
+    Ben MAC de hazırladım bu sebeple host olacakları instance ları da ARM çalıştıracak şekilde seçtim AWS EKS de.
 
-- storageClass olarak biz normalde nfs-clinet veya longhorn tercih ediyoruz. EBS kullanmıyoruz. Fakat burda emptyDir: {} kullanıldı defaultta EBS kullanacaktır.
+- storageClass olarak biz normalde nfs-clinet veya longhorn tercih ediyoruz. 
+    EBS kullanmıyoruz. Fakat burda emptyDir: {} kullanıldı defaultta EBS kullanacaktır.
 
-- AWS'nin arayüzünü kullanım için tercih etmedim. Rancher'a generic cluster ekleyerek EKS cluster ını Rancher üzerinden yönetiyorum. (.kubeconfig dosyasında EKS cluster ın contex bilgileri ve token'ı yer alıyor.)
+- AWS'nin arayüzünü kullanım için tercih etmedim. 
+    Rancher'a generic cluster ekleyerek EKS cluster ını Rancher üzerinden yönetiyorum. (.kubeconfig dosyasında EKS cluster ın contex bilgileri ve token'ı yer alıyor.)
+    Bunun da anlatımı paylaşıacak görsel dökümanda yer alacak bunun için Cattle-System Namespace i kuruluyor. Rancher'ın agent ı EKS üzerine import olup arayzden cluster ı yönetmeye başlıyor.
+    Cattle-System e ait bir configmap de IAM bilgisinin set edilmesi gerekiyor.
 
 - Uygulamalarımı deploy ederken helm değil kubernetes kustomization yapısını kullanıyorum.
+
+- AWS EKS cluster içindeki default pod sayısını 8 ile sınırlamış.
+    Defaultta kullandığı CNI bunu karşılamıyor. 
+    O Sebeple biz default'u değil Calico CNI kurup 250 pod kullanacak şekilde ayarlıyoruz.Buna ilişkin komut seti Terraform başlığı altında paylaşıldı.
 
 ------------FOLDER HİYERARŞİSİ----------
 
@@ -156,3 +165,72 @@ GRANT ALL PRIVILEGES ON DATABASE halukyilmaz55 TO halukuser;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO halukuser;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO halukuser;
 GRANT dba TO halukuser;
+
+
+---------------AWS CREDENTIAL CONFIG IAM ISLEMLERİ & TERRAFORM APPLY-----------------
+
+!!! Terraform tf lerini basmadan evvel aşağıdaki düzenlemelerin yapılmış olması gerekir. !!!
+- aws ve eksctl e ait komut setlerini kullanıyoruz localden 
+- öncesinde acces_key ve secret_key komut çalıştırmak için must'tır.
+
+    aws iam create-access-key --user-name haluk@example.com     # access_key oluştur
+    aws iam list-access-keys --user-name haluk@example.com      # access_key listele
+
+    aws iam get-user --user-name haluk@example.com              # Arn ve Secret bilgisi bilgisi 
+    aws configure set region eu-west-1                          # ilgili region a geç
+    aws configure list --profile default                        # default profilin içeriğine bak burda acces_key ve secret_key göreceksin
+
+    # Root ile oluşturuyoruz genelde fakat işlemler bittikteen sonra güvenlik açısından silinmeli 
+    aws iam delete-access-key --access-key-id ???????? --user-name haluk@example.com
+
+- Kontrolleri localde cat ~/.aws/config & cat ~/.aws/credentials & aws configure list den de sağlayabilirsin.
+
+Sonrasında terraform-iac/haluk-eks dizini altından 
+    terraform init
+    terraform plan -var-file="terraform.tfvars" -out=halukplan
+    terraform apply halukplan
+
+komutlarını çalıştırarak cluster'ı kurarsın.
+
+# --- ! POD sayısı yetersizliğinden kaynaklı komut seti ile kurulum ! ------
+
+eksctl create cluster --name haluk_test --without-nodegroup                                                             # Bununla master node lar oluşacak sonrasında arayüzden 27 ise 28 e upgrde başlat
+
+kubectl delete daemonset -n kube-system aws-node                                                                        # varolan CNI'yı da  kaldıracak
+
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml         # Calico CNI için tigera operator indir
+
+kubectl create -f - <<EOF                                                                                               # Calico CNI ı kur
+kind: Installation
+apiVersion: operator.tigera.io/v1
+metadata:
+  name: default
+spec:
+  kubernetesProvider: EKS
+  cni:
+    type: Calico
+  calicoNetwork:
+    bgp: Disabled
+EOF
+
+
+eksctl create nodegroup -f - <<EOF                                                                                       # 3 instance node dan oluşan node pool oluştur 
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: haluk_test
+  region: eu-west-1
+managedNodeGroups:
+  - name: haluk-nodegroup-low-resource
+    ssh:
+      allow: true
+      publicKeyPath: amazon-public-key.pub                                                                               # ssh için public key file ı set et. (daha eevel arayüzden oşluşturuldu)
+    instanceType: t3.xlarge
+    desiredCapacity: 3
+    minSize: 3
+    maxSize: 3                                                                                                           # worker node umuz 3 adet 
+    maxPodsPerNode: 250                                                                                                  # pod sayısını 250 yapabildik
+    privateNetworking: true
+    subnets:
+      - subnet-???                                                                                                       # Availibty zone'u Private'tan seçtik subnet atadı bize bu deger speceifik o sebeple yazılmadı
+EOF
