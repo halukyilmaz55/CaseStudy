@@ -10,10 +10,10 @@ app.use(cors());
 const port = 5000;
 
 const pool = new Pool({
-  user: "postgres",
-  host: "postgres",
-  database: "mydatabase",
-  password: "password",
+  user: "halukuser",
+  host: "postgres.database.svc.cluster.local",
+  database: "halukyilmaz55",
+  password: "Ale3duysunkr@lSa3sun",
   port: 5432,
 });
 
