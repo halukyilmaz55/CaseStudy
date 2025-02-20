@@ -176,15 +176,40 @@ docker run -d -p 3000:3000 halyil/frontend-app:latest
 - alternatif olarak kurulum sonrası postgresql pod'u üzerinden de bağlantı sağlanabilir --> psql -U postgres -h localhost
 - default user passowrd genelde postgres postgres olur.
 
+-- Veritabanını oluştur
 CREATE DATABASE halukyilmaz55;
+
+-- Kullanıcıyı oluştur ve yetkilendir
 CREATE ROLE halukuser WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';
 GRANT ALL PRIVILEGES ON DATABASE halukyilmaz55 TO halukuser;
+
+-- DBA rolü oluştur ve yetkilendir
 CREATE ROLE dba WITH LOGIN CREATEDB CREATEROLE SUPERUSER PASSWORD 'Ale3duysunkr@lSa3sun';
 CREATE ROLE dba WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';
 GRANT ALL PRIVILEGES ON DATABASE halukyilmaz55 TO halukuser;
+GRANT dba TO halukuser;
+
+-- Veritabanına bağlan
+\c halukyilmaz55
+
+-- users tablosunu oluştur
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Kullanıcıya tüm yetkileri ver
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO halukuser;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO halukuser;
-GRANT dba TO halukuser;
+
+-- Örnek kullanıcılar ekle
+INSERT INTO users (name, email) VALUES 
+    ('Haluk Yılmaz', 'haluk@example.com'),
+    ('Ahmet Kaya', 'mete@example.com'),
+    ('Mehmet Demir', 'ezgi@example.com');
+
 
 
 ---------------AWS CREDENTIAL CONFIG IAM ISLEMLERİ & TERRAFORM APPLY-----------------

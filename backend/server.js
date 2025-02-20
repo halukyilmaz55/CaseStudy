@@ -17,6 +17,12 @@ const pool = new Pool({
   port: 5432,
 });
 
+// Root endpoint
+app.get("/", (req, res) => {
+  res.send("Backend API is running...");
+});
+
+// Users endpoint
 app.get("/users", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM users");
