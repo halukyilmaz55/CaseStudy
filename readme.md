@@ -1,4 +1,4 @@
-# **AWS EKS Deployment README**
+# **CaseStudy AWS EKS SDLC README**
 
 ## **NOTLAR**
 
