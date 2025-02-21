@@ -78,7 +78,7 @@ git clone https://github.com/halukyilmaz55/CaseStudy.git
 mkdir backend && mkdir frontend && touch README.txt
 ```
 
-### **Backend Kurulumu**
+### **Backend Gelistirme**
 
 ```bash
 # Node.js projesini başlat
@@ -91,7 +91,7 @@ node server.js
 npm install express pg cors dotenv
 ```
 
-### **Frontend Kurulumu**
+### **Frontend Gelistirme**
 
 ```bash
 # React projesini oluştur
@@ -174,8 +174,8 @@ CREATE TABLE users (
 -- Kullanıcı ekle
 INSERT INTO users (name, email) VALUES
     ('Haluk Yılmaz', 'haluk@example.com'),
-    ('Ahmet Kaya', 'mete@example.com'),
-    ('Mehmet Demir', 'ezgi@example.com');
+    ('Mete Kose', 'mete@example.com'),
+    ('Ezgi Uslan', 'ezgi@example.com');
 ```
 
 ---
