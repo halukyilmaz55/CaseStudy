@@ -207,8 +207,10 @@ terraform apply halukplan
 ```
 
 Local'den çalıştırbiliriz
-kubectl config use-context haluk-test
-kubectl apply -k CaseStudy/kubernetes-platform/
+
+*kubectl config use-context haluk-test*
+
+*kubectl apply -k CaseStudy/kubernetes-platform/*
 
 ---
 
