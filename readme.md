@@ -214,7 +214,7 @@ Local'den çalıştırbiliriz
 
 ---
 
-## **EKS Cluster ve Calico CNI Kurulumu**
+## **EKS Cluster ve Calico CNI Kurulumu (Alternatif Kurulum Terraform olmadan)**
 
 ```bash
 eksctl create cluster --name haluk-test --without-nodegroup
