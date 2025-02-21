@@ -180,7 +180,7 @@ INSERT INTO users (name, email) VALUES
 
 ---
 
-## **AWS Credential & Terraform Apply**
+## **AWS Credential & Terraform Apply & Kustomization Apply**
 
 ‼ Terraform tf dosyalarını uygulamadan önce aşağıdaki düzenlemelerin yapılmış olması gerekir! ‼
 
@@ -205,6 +205,10 @@ terraform init
 terraform plan -var-file="terraform.tfvars" -out=halukplan
 terraform apply halukplan
 ```
+
+Local'den çalıştırbiliriz
+kubectl config use-context haluk-test
+kubectl apply -k CaseStudy/kubernetes-platform/
 
 ---
 
