@@ -201,6 +201,7 @@ aws configure list --profile default
 
 ```bash
 # Terraform ile AWS EKS Cluster Kurulumu
+cd terraform-iac/haluk-eks
 terraform init
 terraform plan -var-file="terraform.tfvars" -out=halukplan
 terraform apply halukplan
