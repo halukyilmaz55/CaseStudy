@@ -1,19 +1,19 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"
+  default     = "us-west-1"
 }
 
 variable "profile" {
   description = "AWS profile"
   type        = string
-  default     = "default"
+  default     = "free-tier"
 }
 
 variable "eks_name" {
   description = "AWS eks_name"
   type        = string
-  default     = "test"
+  default     = "haluk-test"
 }
 
 variable "eks_version" {
@@ -25,5 +25,5 @@ variable "eks_version" {
 variable "machine_type" {
   description = "AWS machine_type"
   type        = string
-  default     = "t3.medium"
+  default     = "t3.micro"
 }

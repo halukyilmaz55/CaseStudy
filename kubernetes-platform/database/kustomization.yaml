@@ -3,4 +3,4 @@ resources:
 - ns.yaml
 - configmap.yaml
 - postgres-service.yaml
-- postgres-service.yaml
+- postgres-deployment.yaml

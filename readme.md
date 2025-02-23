@@ -129,12 +129,12 @@ Uygulamalar main branch'ında yazılacağı düşünüldü. Yoksa ayrı branchin
 docker login
 
 # Backend için
-docker build -t halyil/backend-app:latest -f backend/Dockerfile backend/
+docker build --platform linux/amd64 -t halyil/backend-app:latest -f backend/Dockerfile backend/
 docker tag halyil/backend-app:latest halyil/backend-app:v1.0
 docker push halyil/backend-app:v1.0
 
 # Frontend için
-docker build -t halyil/frontend-app:latest -f frontend/Dockerfile frontend/
+docker build --platform linux/amd64 -t halyil/frontend-app:latest -f frontend/Dockerfile frontend/
 docker tag halyil/frontend-app:latest halyil/frontend-app:v1.0
 docker push halyil/frontend-app:v1.0
 ```
@@ -143,17 +143,18 @@ docker push halyil/frontend-app:v1.0
 
 ## **PostgreSQL DB İşlemleri**
 
+Normal de Postgre statefulset ile kurulur.(helm tepmlate ile) Fakat burda demo oldugu için ve data kaynı önem arz etmediğinden deployment olarak kurulacak.
+
 pgAdmin kurulup arayüz üzerinden ilgili düzenlemeler yapılabilir.
 
 Alternatif olarak PostgreSQL pod'u üzerinden de bağlantı sağlanabilir:
 
-psql -U postgres -h localhost
+*psql -U halukuser -d halukyilmaz55 -h localhost* komutu ile
 
-Default user password genellikle postgres/postgres olur.
 
 ```sql
-CREATE DATABASE halukyilmaz55;
-CREATE ROLE halukuser WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';
+-- CREATE DATABASE halukyilmaz55;
+-- CREATE ROLE halukuser WITH LOGIN PASSWORD 'Ale3duysunkr@lSa3sun';
 GRANT ALL PRIVILEGES ON DATABASE halukyilmaz55 TO halukuser;
 
 -- DBA rolü oluştur
@@ -190,6 +191,37 @@ AWS ve eksctl komut setleri localden çalıştırılıyor.
 
 Terraform uygulamadan önce access_key ve secret_key oluşturmak şarttır.
 
+Farklı bir profil oluştur
+aws configure --profile free-tier
+
+access key: ???
+secret access key: ???
+
+AWS ye erişimi kontrol et (root ile yaptım aslında tehlikeli farklı bir user ile oluşturulmalıydı)
+aws configure list-profiles
+aws sts get-caller-identity --profile free-tier
+
+
+Default profilimi farklı region için kullanıyordum.free-tier profilimi  default yaptım
+export AWS_PROFILE=free-tier
+AWS_PROFILE=free-tier terraform destroy -auto-approve
+AWS_PROFILE=free-tier terraform init
+AWS_PROFILE=free-tier terraform plan -var-file="terraform.tfvars" -out=halukplan
+AWS_PROFILE=free-tier terraform apply halukplan
+
+Destro etmek istersen komut:
+AWS_PROFILE=free-tier terraform destroy -auto-approve
+
+
+Localinden Terraform apply sonrası, EKS erişimi için aws eks update-kubeconfig komutunu çalıştırman gerekecek.
+aws eks update-kubeconfig --name haluk-test --region eu-west-1 --profile free-tier
+kubectl get nodes
+
+Cluster ın NAT ip sini öğren ve rancher entegrasyonu için rancher makinesinin fw kurallarına tanım gir. (rancher a 443 den gidecek clusterımız)
+aws ec2 describe-nat-gateways --query "NatGateways[*].NatGatewayAddresses[*].PublicIp" --region eu-west-1 --profile free-tier
+
+kubectl apply -f https://rancher.???.com/v3/import/sz2fb645htrm???????w9h5k82pg244x84w2x??4rcrnc_c-m-qljgvzst.yaml
+
 ```bash
 # AWS IAM Kullanıcı ve Anahtar İşlemleri
 aws iam create-access-key --user-name haluk@example.com
@@ -210,8 +242,9 @@ terraform apply halukplan
 Local'den çalıştırbiliriz
 
 *kubectl config use-context haluk-test*
-
+*kubectl config current-context*
 *kubectl apply -k CaseStudy/kubernetes-platform/*
+
 
 ---
 

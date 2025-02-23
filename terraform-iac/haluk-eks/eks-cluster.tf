@@ -21,8 +21,8 @@ module "eks" {
       instance_types = [var.machine_type]
 
       min_size     = 1
-      max_size     = 2
-      desired_size = 2
+      max_size     = 1
+      desired_size = 1
     }
   }
 }
