@@ -249,11 +249,17 @@ kube-system namespace'inde aws-auth configmap'inin içeriğini editle. AWS deki 
 
 kubectl get configmap -n kube-system aws-auth -o yaml
 
+
 mapUsers: |
+
     - userarn: arn:aws:iam::????????:user/haluk@example.com
+  
       username: haluk@example.com
+
       groups:
+
         - system:masters
+
   
 
 ---
