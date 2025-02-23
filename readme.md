@@ -126,14 +126,16 @@ Uygulamalar main branch'ında yazılacağı düşünüldü. Yoksa ayrı branchin
 ```bash
 # Docker Image'larını Build Et ve Tag'le
 
-docker login
+docker login docker.io
 
 # Backend için
+cd /Users/haluk/Desktop/Github/CaseStudy
 docker build --platform linux/amd64 -t halyil/backend-app:latest -f backend/Dockerfile backend/
 docker tag halyil/backend-app:latest halyil/backend-app:v1.0
 docker push halyil/backend-app:v1.0
 
 # Frontend için
+cd /Users/haluk/Desktop/Github/CaseStudy
 docker build --platform linux/amd64 -t halyil/frontend-app:latest -f frontend/Dockerfile frontend/
 docker tag halyil/frontend-app:latest halyil/frontend-app:v1.0
 docker push halyil/frontend-app:v1.0

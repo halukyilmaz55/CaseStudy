@@ -7,10 +7,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - "frontend.haluk.haluk.com"
-    secretName: wildcard-haluk
+    - "frontend.haluk.haluk.com"        # Cloudflare da yahut benzeri yerlerde DNS kayıtlarının olması gerek
+#    secretName: wildcard-haluk         # SSL kullanmayacaksan gerek yok.
   rules:
-    - host: "frontend.haluk.haluk.com"
+    - host: "frontend.haluk.haluk.com"  # Cloudflare da yahut benzeri yerlerde DNS kayıtlarının olması gerek
       http:
         paths:
           - path: /
