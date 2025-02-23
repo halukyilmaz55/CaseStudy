@@ -243,6 +243,22 @@ Cluster ın NAT ip sini öğren ve rancher entegrasyonu için rancher makinesini
 
 aws ec2 describe-nat-gateways --query "NatGateways[*].NatGatewayAddresses[*].PublicIp" --region eu-west-1 --profile free-tier
 
+
+---
+kube-system namespace'inde aws-auth configmap'inin içeriğini editle. AWS deki kullandığın user'ın ARN'nını mapUser olarak ekle
+
+kubectl get configmap -n kube-system aws-auth -o yaml
+
+mapUsers: |
+    - userarn: arn:aws:iam::????????:user/haluk@example.com
+      username: haluk@example.com
+      groups:
+        - system:masters
+  
+
+---
+Aşağıdaki komutu localde çalıştırarak, rancher agent'ını cluster a yükle cattle-system ns ayağa kalksın
+
 kubectl apply -f https://rancher.???.com/v3/import/sz2fb645htrm???????w9h5k82pg244x84w2x??4rcrnc_c-m-qljgvzst.yaml
 
 
