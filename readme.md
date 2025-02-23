@@ -192,35 +192,57 @@ AWS ve eksctl komut setleri localden çalıştırılıyor.
 Terraform uygulamadan önce access_key ve secret_key oluşturmak şarttır.
 
 Farklı bir profil oluştur
+
 aws configure --profile free-tier
 
 access key: ???
+
 secret access key: ???
 
+
+
 AWS ye erişimi kontrol et (root ile yaptım aslında tehlikeli farklı bir user ile oluşturulmalıydı)
+
 aws configure list-profiles
+
 aws sts get-caller-identity --profile free-tier
 
 
+
 Default profilimi farklı region için kullanıyordum.free-tier profilimi  default yaptım
+
 export AWS_PROFILE=free-tier
+
 AWS_PROFILE=free-tier terraform destroy -auto-approve
+
 AWS_PROFILE=free-tier terraform init
+
 AWS_PROFILE=free-tier terraform plan -var-file="terraform.tfvars" -out=halukplan
+
 AWS_PROFILE=free-tier terraform apply halukplan
 
+
+
 Destro etmek istersen komut:
+
 AWS_PROFILE=free-tier terraform destroy -auto-approve
+
 
 
 Localinden Terraform apply sonrası, EKS erişimi için aws eks update-kubeconfig komutunu çalıştırman gerekecek.
+
 aws eks update-kubeconfig --name haluk-test --region eu-west-1 --profile free-tier
+
 kubectl get nodes
 
+
+
 Cluster ın NAT ip sini öğren ve rancher entegrasyonu için rancher makinesinin fw kurallarına tanım gir. (rancher a 443 den gidecek clusterımız)
+
 aws ec2 describe-nat-gateways --query "NatGateways[*].NatGatewayAddresses[*].PublicIp" --region eu-west-1 --profile free-tier
 
 kubectl apply -f https://rancher.???.com/v3/import/sz2fb645htrm???????w9h5k82pg244x84w2x??4rcrnc_c-m-qljgvzst.yaml
+
 
 ```bash
 # AWS IAM Kullanıcı ve Anahtar İşlemleri
