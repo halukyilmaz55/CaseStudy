@@ -185,12 +185,14 @@ INSERT INTO users (name, email) VALUES
 
 ‼ Terraform tf dosyalarını uygulamadan önce aşağıdaki düzenlemelerin yapılmış olması gerekir! ‼
 
-Çalıştırmadığım için tfstate dosyasını koymadım, hassas veri içerdiği için.
+tfstate dosyasını koymadım, hassas veri içerdiği için.
 
-AWS ve eksctl komut setleri localden çalıştırılıyor.
+aws ve eksctl komut setleri localden çalıştırılıyor.
 
 Terraform uygulamadan önce access_key ve secret_key oluşturmak şarttır.
 
+
+---
 Farklı bir profil oluştur
 
 aws configure --profile free-tier
@@ -200,7 +202,7 @@ access key: ???
 secret access key: ???
 
 
-
+---
 AWS ye erişimi kontrol et (root ile yaptım aslında tehlikeli farklı bir user ile oluşturulmalıydı)
 
 aws configure list-profiles
@@ -208,7 +210,7 @@ aws configure list-profiles
 aws sts get-caller-identity --profile free-tier
 
 
-
+---
 Default profilimi farklı region için kullanıyordum.free-tier profilimi  default yaptım
 
 export AWS_PROFILE=free-tier
@@ -222,13 +224,13 @@ AWS_PROFILE=free-tier terraform plan -var-file="terraform.tfvars" -out=halukplan
 AWS_PROFILE=free-tier terraform apply halukplan
 
 
-
+---
 Destro etmek istersen komut:
 
 AWS_PROFILE=free-tier terraform destroy -auto-approve
 
 
-
+---
 Localinden Terraform apply sonrası, EKS erişimi için aws eks update-kubeconfig komutunu çalıştırman gerekecek.
 
 aws eks update-kubeconfig --name haluk-test --region eu-west-1 --profile free-tier
@@ -236,7 +238,7 @@ aws eks update-kubeconfig --name haluk-test --region eu-west-1 --profile free-ti
 kubectl get nodes
 
 
-
+---
 Cluster ın NAT ip sini öğren ve rancher entegrasyonu için rancher makinesinin fw kurallarına tanım gir. (rancher a 443 den gidecek clusterımız)
 
 aws ec2 describe-nat-gateways --query "NatGateways[*].NatGatewayAddresses[*].PublicIp" --region eu-west-1 --profile free-tier
