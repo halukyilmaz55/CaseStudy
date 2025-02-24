@@ -81,14 +81,14 @@ mkdir backend && mkdir frontend && touch README.txt
 ### **Backend Gelistirme**
 
 ```bash
+# Gerekli bağımlılıkları yükle
+npm install express pg cors dotenv
+
 # Node.js projesini başlat
 npm init -y
 npm install
 npm start
 node server.js
-
-# Gerekli bağımlılıkları yükle
-npm install express pg cors dotenv
 ```
 
 ### **Frontend Gelistirme**
@@ -145,7 +145,7 @@ docker push halyil/frontend-app:v1.0
 
 ## **PostgreSQL DB İşlemleri**
 
-Normal de Postgre statefulset ile kurulur.(helm tepmlate ile) Fakat burda demo oldugu için ve data kaynı önem arz etmediğinden deployment olarak kurulacak.
+Normal de Postgre statefulset ile kurulur.(helm template ile) Fakat burda demo oldugu için ve data kaybı önem arz etmediğinden deployment olarak kurulacak.
 
 pgAdmin kurulup arayüz üzerinden ilgili düzenlemeler yapılabilir.
 
@@ -227,7 +227,7 @@ AWS_PROFILE=free-tier terraform apply halukplan
 
 
 ---
-Destro etmek istersen komut:
+Destroy etmek istersen komut:
 
 AWS_PROFILE=free-tier terraform destroy -auto-approve
 
@@ -252,6 +252,7 @@ kube-system namespace'inde aws-auth configmap'inin içeriğini editle. AWS deki 
 kubectl get configmap -n kube-system aws-auth -o yaml
 
 
+
 mapUsers: |
 
     - userarn: arn:aws:iam::????????:user/haluk@example.com
@@ -265,7 +266,9 @@ mapUsers: |
   
 
 ---
-Aşağıdaki komutu localde çalıştırarak, rancher agent'ını cluster a yükle cattle-system ns ayağa kalksın
+Aşağıdaki komutu localde çalıştırarak, rancher agent'ını cluster a yükle cattle-system ns ayağa kalksın.
+
+(screenshot-docs folder'ında detaylarıyla ekran goruntuleri mevcut)
 
 kubectl apply -f https://rancher.???.com/v3/import/sz2fb645htrm???????w9h5k82pg244x84w2x??4rcrnc_c-m-qljgvzst.yaml
 
@@ -276,7 +279,7 @@ aws iam create-access-key --user-name haluk@example.com
 aws iam list-access-keys --user-name haluk@example.com
 aws iam get-user --user-name haluk@example.com
 aws configure set region eu-west-1
-aws configure list --profile default
+aws configure list --profile free-tier
 ```
 
 ```bash
@@ -329,9 +332,9 @@ managedNodeGroups:
       allow: true
       publicKeyPath: amazon-public-key.pub
     instanceType: t3.xlarge
-    desiredCapacity: 3
+    desiredCapacity: 1
     minSize: 1
-    maxSize: 2
+    maxSize: 1
     maxPodsPerNode: 250
     privateNetworking: true
     subnets:
