@@ -307,7 +307,8 @@ kubectl delete daemonset -n kube-system aws-node
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
 ```
 
-```yaml
+```bash
+cat <<EOF | kubectl apply -f -
 kind: Installation
 apiVersion: operator.tigera.io/v1
 metadata:
@@ -318,9 +319,11 @@ spec:
     type: Calico
   calicoNetwork:
     bgp: Disabled
+EOF
 ```
 
-```yaml
+```bash
+cat <<EOF | eksctl create nodegroup -f -
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
@@ -338,6 +341,7 @@ managedNodeGroups:
     maxPodsPerNode: 250
     privateNetworking: true
     subnets:
-      - subnet-???
+      - subnet-??? # Buraya subnet ID'si girmen gerekiyor.
+EOF
 ```
 
