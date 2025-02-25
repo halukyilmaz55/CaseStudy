@@ -29,33 +29,13 @@
 
   - AWS CNI yerine **Calico CNI kurulumu** yapılarak pod sınırı **250'ye çıkarıldı.**
 
+- **Aşağıdaki folder hiyararşi kurulum ve konfigürasyon sıralamasına göre oluşturuldu.**
+
 ---
 
 ## **FOLDER HİYERARŞİSİ**
 
 ```
-│── kubernetes-platform/             # Kubernetes YAML dosyaları
-│   ├── backend/                     # Backend ile ilgili YAML dosyaları
-│   │   ├── backend-deployment.yaml
-│   │   ├── backend-service.yaml
-│   │   ├── kustomization.yaml
-│   │   ├── ns.yaml
-│   │
-│   ├── database/                    # PostgreSQL ile ilgili YAML dosyaları
-│   │   ├── configmap.yaml
-│   │   ├── kustomization.yaml
-│   │   ├── ns.yaml
-│   │   ├── postgres-deployment.yaml
-│   │   ├── postgres-service.yaml
-│   │
-│   ├── frontend/                     # Frontend ile ilgili YAML dosyaları
-│   │   ├── configmap.yaml
-│   │   ├── frontend-deployment.yaml
-│   │   ├── frontend-service.yaml
-│   │   ├── kustomization.yaml
-│   │   ├── ns.yaml
-│   │   ├── ingress.yaml              
-│
 │── backend/                          # Backend (Node.js)
 │   ├── Dockerfile
 │   ├── package.json
@@ -78,7 +58,29 @@
 │   ├── variables.tf
 │   ├── vpc.tf
 │
-│── README.md                         
+│── kubernetes-platform/             # Kubernetes YAML dosyaları
+│   ├── backend/                     # Backend ile ilgili YAML dosyaları
+│   │   ├── backend-deployment.yaml
+│   │   ├── backend-service.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── ns.yaml
+│   │
+│   ├── database/                    # PostgreSQL ile ilgili YAML dosyaları
+│   │   ├── configmap.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── ns.yaml
+│   │   ├── postgres-deployment.yaml
+│   │   ├── postgres-service.yaml
+│   │
+│   ├── frontend/                     # Frontend ile ilgili YAML dosyaları
+│   │   ├── configmap.yaml
+│   │   ├── frontend-deployment.yaml
+│   │   ├── frontend-service.yaml
+│   │   ├── kustomization.yaml
+│   │   ├── ns.yaml
+│   │   ├── ingress.yaml              # Yeni eklenen Ingress dosyası
+│
+│── README.md                         # Bu dosya                        
 ```
 
 ---
