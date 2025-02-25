@@ -4,7 +4,7 @@ trigger:
       - main
 
 pool:
-  vmImage: 'aws-build-agent-1' # Biz externalda konumlandırdığımız EC2 lar (ubuntu machine) üzerine build agent lar kurup bu işlemleri burdan yürütüyoruz.
+  name: 'aws-build-agent-1' # Biz externalda konumlandırdığımız EC2 lar (ubuntu machine) üzerine build agent lar kurup bu işlemleri burdan yürütüyoruz.
 
 variables: # Bu variable ları AzureDevops Library'den de çektirebilirdik.Ben pipe'ın içinde tanımnladım.
   DOCKER_REGISTRY: "docker.io"
