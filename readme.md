@@ -54,6 +54,7 @@
 │   │   ├── frontend-service.yaml
 │   │   ├── kustomization.yaml
 │   │   ├── ns.yaml
+│   │   ├── ingress.yaml              
 │
 │── backend/                          # Backend (Node.js)
 │   ├── Dockerfile
@@ -65,7 +66,19 @@
 │   ├── package.json
 │   ├── src/
 │
-│── README.md                        # Bu dosya
+│── ci-cd-azuredevops/                # Azure DevOps CI/CD Pipelines
+│   ├── azure-pipelines.yml
+│
+│── terraform-iac/haluk-eks/          # Terraform ile EKS altyapısı yönetimi
+│   ├── eks-cluster.tf
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── terraform.tf
+│   ├── terraform.tfvars
+│   ├── variables.tf
+│   ├── vpc.tf
+│
+│── README.md                         
 ```
 
 ---
